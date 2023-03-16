@@ -3,4 +3,11 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 
+[rpc_endpoints]
+goerli = "${ETH_RPC_URL}"
+
+[etherscan]
+# goerliscan = { key = "${GOERLISCAN_API_KEY}" } #getting error: must specify chain or url
+
+
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
