@@ -28,6 +28,8 @@ contract TruflationTesterTest is Test {
     }
 
     function testRequestInflationWei() public {
+        assertEq(IERC20(token).balanceOf(address(eg)), 5000000000000000000);
+
         eg.requestInflationWei();
     }
 
