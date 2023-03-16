@@ -4,11 +4,12 @@ pragma abicoder v2;
 
 import "forge-std/Test.sol";
 import "../src/TruflationTester.sol";
-
+import "../src/interface/IERC20.sol";
 
 contract TruflationTesterTest is Test {
+    uint256 goerli;
 
-    TruflationTester public eg;
+    TruflationTesterV1 public eg;
 
     address constant oracleId = 0x6888BdA6a975eCbACc3ba69CA2c80d7d7da5A344;
     string constant jobId = "d220e5e687884462909a03021385b7ae"; 
@@ -21,13 +22,13 @@ contract TruflationTesterTest is Test {
         string memory GOERLI_RPC_URL = vm.envString("GOERLI_RPC_URL");
         goerli = vm.createSelectFork(GOERLI_RPC_URL);
 
-        eg = new TruflationTester(oracleId, jobId, fee, token);
+        eg = new TruflationTesterV1(oracleId, jobId, fee, token);
         vm.prank(austin);
-
+        IERC20(token).transfer(address(eg), 5000000000000000000);
     }
 
     function testRequestInflationWei() public {
-
+        eg.requestInflationWei();
     }
 
 }
