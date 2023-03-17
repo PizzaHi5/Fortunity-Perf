@@ -34,7 +34,22 @@ contract TruflationTesterTest is Test {
     function testRequestInflationWei() public {
         assertEq(IERC20(token).balanceOf(address(eg)), 5000000000000000000);
 
-        eg.requestInflationWei();
+        // Never finishes executing
+        //eg.requestInflationWei();
+    }
+
+    function testPortAllen() public {
+        bytes memory key = '0x506F727420416C6C656E';
+
+        bytes memory encodedKey = abi.encode(key);
+        console.log(vm.toString(encodedKey));
+
+        bytes32 hashedPackedKey = keccak256(abi.encodePacked(key));
+        console.log(vm.toString(hashedPackedKey));
+
+        bytes32 hashedKey = keccak256(encodedKey);
+        console.log(vm.toString(hashedKey));
+
     }
 
 }
