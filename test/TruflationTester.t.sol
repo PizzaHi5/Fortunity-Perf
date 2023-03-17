@@ -6,6 +6,10 @@ import "forge-std/Test.sol";
 import "../src/TruflationTester.sol";
 import "../src/interface/IERC20.sol";
 
+/**
+    @dev Note: To test locally, this would require a mock chainlink node contract and/or TfiOperator
+ */
+
 contract TruflationTesterTest is Test {
     uint256 goerli;
 
