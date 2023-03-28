@@ -14,8 +14,7 @@ contract FortunityPricefeedScript is Script {
     FortunityPricefeed public eg;
 
     // testnet:
-    // forge script script/TruflationTester.s.sol:TruflationTesterScript --rpc-url $GOERLI_RPC_URL 
-    // --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_RPC_URL -vvvv
+    // forge script script/FortunityPricefeed.s.sol:FortunityPricefeedScript --rpc-url $GOERLI_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_RPC_URL -vvvv
     // example: 0x314fd64Cf2Eb30d0a8d8229471dAf3bB89944827
 
     function setUp() public {}
@@ -30,7 +29,7 @@ contract FortunityPricefeedScript is Script {
         // Funds contract
         IERC20(token).transfer(address(eg), 3e18);
 
-        // Starts data request, will not succeed when ran locally
+        // Starts data request, will not succeed when simulated locally
         // eg.requestInflationWei();
 
         vm.stopBroadcast();    

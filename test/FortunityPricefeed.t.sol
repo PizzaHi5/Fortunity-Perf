@@ -14,11 +14,11 @@ import "@perp/contracts/interface/IPriceFeedV2.sol";
  */
 
 contract FortunityPricefeedTest is Test {
-    // First Iteration
+    // First Iteration, input address
     address constant tester = 0x2534D71D353A97Cdd11a3C2BcCe90f84f58eCC5e;
 
-    // Second Iteration
-    address constant pricefeed;
+    // Second Iteration, input address
+    address constant pricefeed = 0x652d2a4AcB7630AB96CC9f291e810EcbB0707D0C;
 
     uint256 goerli;
 
@@ -46,7 +46,6 @@ contract FortunityPricefeedTest is Test {
         console.log(vm.toString(price));
     }
 
-    /*
     function testGetValueThruPerpInterface() public {
         uint amount = IPriceFeedV2(tester).getPrice(0);
         console.log(vm.toString(amount));
@@ -55,5 +54,4 @@ contract FortunityPricefeedTest is Test {
         uint price = amount + 100e18;
         console.log(vm.toString(price));
     }
-    */
 }
