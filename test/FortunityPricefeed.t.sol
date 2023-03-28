@@ -3,18 +3,25 @@ pragma solidity ^0.7.6;
 pragma abicoder v2;
 
 import "forge-std/Test.sol";
-import "../src/TruflationTester.sol";
 import "../src/interface/IERC20.sol";
 import "../src/interface/ITruflationTester.sol";
+import "../src/interface/IFortunityPricefeed.sol";
+import "@perp/contracts/interface/IPriceFeedV2.sol";
 
-/// Goerli test
+/**
+    @dev To run this, you must first deploy the 0.8.x version TruflationTester.
+        Take the output address and use it as input for the test. 
+ */
 
-contract TruflationTesterTest is Test {
+contract FortunityPricefeedTest is Test {
+    // First Iteration
+    address constant tester = 0x2534D71D353A97Cdd11a3C2BcCe90f84f58eCC5e;
+
+    // Second Iteration
+    address constant pricefeed;
+
     uint256 goerli;
 
-    TruflationTesterV1 public eg;
-    // 0x6888BdA6a975eCbACc3ba69CA2c80d7d7da5A344 //proxy
-    // 0x25A9606f95e0c37B51cBF922dD33f659c2ED3718 //imple
     address constant oracleId = 0x6888BdA6a975eCbACc3ba69CA2c80d7d7da5A344;
     string constant jobId = "d220e5e687884462909a03021385b7ae"; 
     uint256 constant fee = 500000000000000000;
@@ -22,28 +29,16 @@ contract TruflationTesterTest is Test {
 
     address constant austin = 0x096f6A2b185d63D942750A2D961f7762401cbA17;
 
-    /// @dev Deployed this separately, used to successfully get price
-    address constant testnetTester = 0x2534D71D353A97Cdd11a3C2BcCe90f84f58eCC5e;
-
     function setUp() public {
         string memory GOERLI_RPC_URL = vm.envString("GOERLI_RPC_URL");
         goerli = vm.createSelectFork(GOERLI_RPC_URL);
 
-        eg = new TruflationTesterV1(oracleId, jobId, fee, token);
-
         vm.prank(austin);
-        IERC20(token).transfer(address(eg), 5000000000000000000);
+        IERC20(token).transfer(tester, 5e18);
     }
 
-    function testRequestInflationWei() public {
-        assertEq(IERC20(token).balanceOf(address(eg)), 5000000000000000000);
-
-        // Never finishes executing
-        //eg.requestInflationWei();
-    }
-
-    function testGetValueThruInterface() public {
-        int amount = ITruflationTester(testnetTester).getinflationWei();
+    function testGetValueThruFortInterface() public {
+        int amount = ITruflationTester(tester).getinflationWei();
         console.log(vm.toString(amount));
         assertGt(amount, int256(1e17));
         
@@ -51,4 +46,14 @@ contract TruflationTesterTest is Test {
         console.log(vm.toString(price));
     }
 
+    /*
+    function testGetValueThruPerpInterface() public {
+        uint amount = IPriceFeedV2(tester).getPrice(0);
+        console.log(vm.toString(amount));
+        assertGt(amount, uint256(1e17));
+        
+        uint price = amount + 100e18;
+        console.log(vm.toString(price));
+    }
+    */
 }

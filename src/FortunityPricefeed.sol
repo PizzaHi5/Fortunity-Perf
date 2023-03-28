@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 contract FortunityPricefeed is ChainlinkClient, ConfirmedOwner {
   using Chainlink for Chainlink.Request;
   
-  int256 inflationWei;
+  uint256 inflationWei;
 
   address public oracleId;
   string public jobId;
@@ -50,14 +50,14 @@ contract FortunityPricefeed is ChainlinkClient, ConfirmedOwner {
     bytes32 _requestId,
     bytes memory _inflation
   ) public recordChainlinkFulfillment(_requestId) {
-    inflationWei = toInt256(_inflation);
+    inflationWei = uint256(toInt256(_inflation) + 100e18);
   }
 
   function toInt256(bytes memory _bytes) internal pure
-  returns (int256 value) {
-    assembly {
-      value := mload(add(_bytes, 0x20))
-    }
+    returns (int256 value) {
+        assembly {
+            value := mload(add(_bytes, 0x20))
+        }
   }
 
   function changeOracle(address _oracle) public onlyOwner {
@@ -72,8 +72,19 @@ contract FortunityPricefeed is ChainlinkClient, ConfirmedOwner {
     fee = _fee;
   }
 
-  function getInflationWei() external view returns (int256) {
+  // @perp-oracle-contract
+  function getPrice(uint256 interval) external view returns (uint256) {
     return inflationWei;
+  }
+  
+  // @perp-oracle-contract
+  function cacheTwap(uint256 interval) external returns (uint256) {
+    return 0;
+  }
+    
+  // @perp-oracle-contract
+  function decimals() external view returns (uint8) {
+    return 18;
   }
 
 
