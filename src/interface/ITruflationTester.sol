@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-pragma solidity ^0.7.0;
+pragma solidity 0.7.6;
 
-interface ITruflationTester {
-    function getinflationWei() external view returns (int256);
+interface IFortunityPricefeed {
+    // Return current price in wei
+    function getInflationWei() external view returns (int256);
     
-    function requestInflationWei() external returns (bytes32 requestId);
 }

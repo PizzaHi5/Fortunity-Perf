@@ -5,10 +5,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
-
-contract TruflationTester is ChainlinkClient, ConfirmedOwner {
+contract FortunityPricefeed is ChainlinkClient, ConfirmedOwner {
   using Chainlink for Chainlink.Request;
   
+  int256 inflationWei;
+
   address public oracleId;
   string public jobId;
   uint256 public fee;
@@ -29,37 +30,6 @@ contract TruflationTester is ChainlinkClient, ConfirmedOwner {
     fee = fee_;
   }
 
-  function changeOracle(address _oracle) public onlyOwner {
-    oracleId = _oracle;
-  }
-
-  function changeJobId(string memory _jobId) public onlyOwner {
-    jobId = _jobId;
-  }
-
-  function changeFee(uint256 _fee) public onlyOwner {
-    fee = _fee;
-  }
-
-  function getChainlinkToken() public view returns (address) {
-    return chainlinkTokenAddress();
-  }
-
-  function withdrawLink() public onlyOwner {
-    LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
-    require(link.transfer(msg.sender, link.balanceOf(address(this))),
-    "Unable to transfer");
-  }
-
-
-  // The following are for retrieving inflation in terms of wei
-  // This is useful in situations where you want to do numerical
-  // processing of values within the smart contract
-
-  // This will require a int256 rather than a uint256 as inflation
-  // can be negative
-
-  int256 public inflationWei;
   function requestInflationWei() public returns (bytes32 requestId) {
     Chainlink.Request memory req = buildChainlinkRequest(
       bytes32(bytes(jobId)),
@@ -88,5 +58,32 @@ contract TruflationTester is ChainlinkClient, ConfirmedOwner {
     assembly {
       value := mload(add(_bytes, 0x20))
     }
+  }
+
+  function changeOracle(address _oracle) public onlyOwner {
+    oracleId = _oracle;
+  }
+
+  function changeJobId(string memory _jobId) public onlyOwner {
+    jobId = _jobId;
+  }
+
+  function changeFee(uint256 _fee) public onlyOwner {
+    fee = _fee;
+  }
+
+  function getInflationWei() external view returns (int256) {
+    return inflationWei;
+  }
+
+
+  function getChainlinkToken() public view returns (address) {
+    return chainlinkTokenAddress();
+  }
+
+  function withdrawLink() public onlyOwner {
+    LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
+    require(link.transfer(msg.sender, link.balanceOf(address(this))),
+    "Unable to transfer");
   }
 }
