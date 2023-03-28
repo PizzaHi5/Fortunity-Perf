@@ -7,9 +7,7 @@ import "../src/TruflationTester.sol";
 import "../src/interface/IERC20.sol";
 import "../src/interface/ITruflationTester.sol";
 
-/**
-    @dev Note: To test locally, this would require a mock chainlink node contract and/or TfiOperator
- */
+/// Goerli test
 
 contract TruflationTesterTest is Test {
     uint256 goerli;
@@ -24,6 +22,7 @@ contract TruflationTesterTest is Test {
 
     address constant austin = 0x096f6A2b185d63D942750A2D961f7762401cbA17;
 
+    /// @dev Deployed this separately, used to successfully get price
     address constant testnetTester = 0x2534D71D353A97Cdd11a3C2BcCe90f84f58eCC5e;
 
     function setUp() public {
@@ -41,16 +40,15 @@ contract TruflationTesterTest is Test {
 
         // Never finishes executing
         //eg.requestInflationWei();
-
-        //Interface test
-        //int amount = ITruflationTester(testnetTester).getinflationWei();
-
-        //console.log(vm.toString(amount));
     }
 
     function testGetValueThruInterface() public {
         int amount = ITruflationTester(testnetTester).getinflationWei();
         console.log(vm.toString(amount));
+        assertGt(amount, int256(1e17));
+        
+        int price = amount + 100e18;
+        console.log(vm.toString(price));
     }
 
 }

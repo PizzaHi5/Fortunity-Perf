@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.7.6;
-pragma abicoder v2;
+pragma solidity ^0.8.17;
 
 import "forge-std/Script.sol";
-import "../src/TruflationTester.sol";
+import "../src/FortunityPricefeed.sol";
 import "../src/interface/IERC20.sol";
 
 contract TruflationTesterScript is Script {
@@ -13,9 +12,13 @@ contract TruflationTesterScript is Script {
     uint256 constant fee = 500000000000000000;
     address constant token = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
 
+    // testnet:
     // forge script script/TruflationTester.s.sol:TruflationTesterScript --rpc-url $GOERLI_RPC_URL 
     // --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_RPC_URL -vvvv
-    
+
+    // local:
+    // forge script script/NFT.s.sol:TruflationTester.s.sol --fork-url http://localhost:8545 --broadcast
+
     // example: 0x314fd64Cf2Eb30d0a8d8229471dAf3bB89944827
 
     function setUp() public {}
