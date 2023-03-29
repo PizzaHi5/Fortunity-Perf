@@ -6,7 +6,12 @@ import "../src/FortunityPricefeed.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract FortunityPricefeedScript is Script {
+    /// @dev Change deployment details below based on network
+    //goerli oracle
     address constant oracleId = 0x6888BdA6a975eCbACc3ba69CA2c80d7d7da5A344;
+    //mumbai oracle
+    address constant mumbOracleId = 0x6D141Cf6C43f7eABF94E288f5aa3f23357278499;
+
     string constant jobId = "d220e5e687884462909a03021385b7ae"; 
     uint256 constant fee = 500000000000000000;
     address constant token = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
@@ -24,7 +29,7 @@ contract FortunityPricefeedScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Creates contract
-        eg = new FortunityPricefeed(oracleId, jobId, fee, token);
+        eg = new FortunityPricefeed(mumbOracleId, jobId, fee, token);
 
         // Funds contract
         IERC20(token).transfer(address(eg), 3e18);

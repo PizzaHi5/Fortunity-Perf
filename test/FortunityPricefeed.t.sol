@@ -14,29 +14,33 @@ import "@perp/contracts/interface/IPriceFeedV2.sol";
  */
 
 contract FortunityPricefeedTest is Test {
-    // First Iteration, input address
+    // First Iteration, input goerli address 
     address constant tester = 0x2534D71D353A97Cdd11a3C2BcCe90f84f58eCC5e;
 
-    // Second Iteration, input address
+    // Second Iteration, input goerli address
     address constant pricefeed = 0x652d2a4AcB7630AB96CC9f291e810EcbB0707D0C;
 
-    uint256 goerli;
+    // Copy 2nd Iteration, input mumbai address
+    address constant mumbPriceFeed = 0xB6300897c7c392022f0068F65C382d334FBC692C;
 
-    address constant oracleId = 0x6888BdA6a975eCbACc3ba69CA2c80d7d7da5A344;
-    string constant jobId = "d220e5e687884462909a03021385b7ae"; 
-    uint256 constant fee = 500000000000000000;
+    uint256 goerli;
+    uint256 mumbai;
+
     address constant token = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
 
     address constant austin = 0x096f6A2b185d63D942750A2D961f7762401cbA17;
 
     function setUp() public {
         string memory GOERLI_RPC_URL = vm.envString("GOERLI_RPC_URL");
+        string memory MUMBAI_RPC_URL = vm.envString("MUMBAI_RPC_URL");
         goerli = vm.createSelectFork(GOERLI_RPC_URL);
+        mumbai = vm.createFork(MUMBAI_RPC_URL);
 
         vm.prank(austin);
         IERC20(token).transfer(tester, 5e18);
     }
 
+    //goerli test
     function testGetValueThruFortInterface() public {
         int amount = ITruflationTester(tester).getinflationWei();
         console.log(vm.toString(amount));
@@ -46,8 +50,17 @@ contract FortunityPricefeedTest is Test {
         console.log(vm.toString(price));
     }
 
+    //goerli test
     function testGetValueThruPerpInterface() public {
         uint amount = IPriceFeedV2(pricefeed).getPrice(0);
+        console.log(vm.toString(amount));
+        assertGt(amount, uint256(1e19));
+    }
+
+    //mumbai test
+    function testMumbaiPerpInterface() public {
+        vm.selectFork(mumbai);
+        uint amount = IPriceFeedV2(mumbPriceFeed).getPrice(0);
         console.log(vm.toString(amount));
         assertGt(amount, uint256(1e19));
     }
