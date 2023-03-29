@@ -47,11 +47,8 @@ contract FortunityPricefeedTest is Test {
     }
 
     function testGetValueThruPerpInterface() public {
-        uint amount = IPriceFeedV2(tester).getPrice(0);
+        uint amount = IPriceFeedV2(pricefeed).getPrice(0);
         console.log(vm.toString(amount));
-        assertGt(amount, uint256(1e17));
-        
-        uint price = amount + 100e18;
-        console.log(vm.toString(price));
+        assertGt(amount, uint256(1e19));
     }
 }
