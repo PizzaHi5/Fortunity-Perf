@@ -13,7 +13,8 @@ contract FortunityPricefeedScript is Script {
     address constant mumbOracleId = 0x6D141Cf6C43f7eABF94E288f5aa3f23357278499;
 
     string constant jobId = "d220e5e687884462909a03021385b7ae"; 
-    uint256 constant fee = 500000000000000000;
+    uint256 constant goerlifee = 500000000000000000; // .5link
+    uint256 constant mumbaifee = 5000000000000000000; // 5link
     address constant token = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
 
     FortunityPricefeed public eg;
@@ -29,10 +30,10 @@ contract FortunityPricefeedScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // Creates contract
-        eg = new FortunityPricefeed(mumbOracleId, jobId, fee, token);
+        eg = new FortunityPricefeed(mumbOracleId, jobId, mumbaifee, token);
 
-        // Funds contract
-        IERC20(token).transfer(address(eg), 3e18);
+        // Funds contract, ensure you have 10LINK
+        IERC20(token).transfer(address(eg), 10e18);
 
         // Starts data request, will not succeed when simulated locally
         // eg.requestInflationWei();

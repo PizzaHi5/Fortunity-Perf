@@ -51,7 +51,7 @@ contract FortunityPricefeedTest is Test {
     }
 
     //goerli test
-    function testGetValueThruPerpInterface() public {
+    function testGoerliPerpInterface() public {
         uint amount = IPriceFeedV2(pricefeed).getPrice(0);
         console.log(vm.toString(amount));
         assertGt(amount, uint256(1e19));
