@@ -7,6 +7,7 @@ import "../src/interface/IERC20.sol";
 import "../src/interface/ITruflationTester.sol";
 import "../src/interface/IFortunityPricefeed.sol";
 import "@perp/contracts/interface/IPriceFeedV2.sol";
+import "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol";
 
 /**
     @dev To run this, you must first deploy the 0.8.x version TruflationTester.
@@ -23,8 +24,12 @@ contract FortunityPricefeedTest is Test {
     // Copy 2nd Iteration, input mumbai address
     address constant mumbPriceFeed = 0xB6300897c7c392022f0068F65C382d334FBC692C;
 
+    // 3rd iteration, input arbitrum address
+    address constant truflationTFIAdapter = 0x9De602408AA53F0BB8bC54280A9fb70446289cFC;
+
     uint256 goerli;
     uint256 mumbai;
+    uint256 arbitrum;
 
     address constant token = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
 
@@ -33,8 +38,10 @@ contract FortunityPricefeedTest is Test {
     function setUp() public {
         string memory GOERLI_RPC_URL = vm.envString("GOERLI_RPC_URL");
         string memory MUMBAI_RPC_URL = vm.envString("MUMBAI_RPC_URL");
+        string memory ARBITRUM_RPC_URL = vm.envString("ARBITRUM_RPC_URL");
         goerli = vm.createSelectFork(GOERLI_RPC_URL);
         mumbai = vm.createFork(MUMBAI_RPC_URL);
+        arbitrum = vm.createFork(ARBITRUM_RPC_URL);
 
         vm.prank(austin);
         IERC20(token).transfer(tester, 5e18);
@@ -43,17 +50,20 @@ contract FortunityPricefeedTest is Test {
     //goerli test
     function testGetValueThruFortInterface() public {
         int amount = ITruflationTester(tester).getinflationWei();
-        console.log(vm.toString(amount));
+        //console.log(vm.toString(amount));
+        emit log(vm.toString(amount));
         assertGt(amount, int256(1e17));
         
         int price = amount + 100e18;
-        console.log(vm.toString(price));
+        //console.log(vm.toString(price));
+        emit log(vm.toString(price));
     }
 
     //goerli test
     function testGoerliPerpInterface() public {
         uint amount = IPriceFeedV2(pricefeed).getPrice(0);
-        console.log(vm.toString(amount));
+        //console.log(vm.toString(amount));
+        emit log(vm.toString(amount));
         assertGt(amount, uint256(1e19));
     }
 
@@ -61,7 +71,16 @@ contract FortunityPricefeedTest is Test {
     function testMumbaiPerpInterface() public {
         vm.selectFork(mumbai);
         uint amount = IPriceFeedV2(mumbPriceFeed).getPrice(0);
-        console.log(vm.toString(amount));
+        //console.log(vm.toString(amount));
+        emit log(vm.toString(amount));
         assertGt(amount, uint256(1e19));
+    }
+
+    function testArbitrumTruflationTfiAdapter() public {
+        vm.selectFork(arbitrum);
+        (,int256 price,,,) = AggregatorV3Interface(truflationTFIAdapter).latestRoundData();
+        //console.log(price);
+        emit log(vm.toString(price));
+        assertGt(price, int256(1e18));
     }
 }
