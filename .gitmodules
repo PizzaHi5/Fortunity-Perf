@@ -12,3 +12,5 @@
 [submodule "lib/perp-oracle-contract"]
 	path = lib/perp-oracle-contract
 	url = https://github.com/perpetual-protocol/perp-oracle-contract
+[submodule "lib/newzep"]
+	path = lib/newzep
