@@ -2,7 +2,7 @@
 pragma solidity 0.7.6;
 
 import { Address } from "@openzeppelin/contracts/utils/Address.sol";
-import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol";
+import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.7/interfaces/AggregatorV3Interface.sol";
 import { IChainlinkPriceFeed } from "@perp/contracts/interface/IChainlinkPriceFeed.sol";
 import { IPriceFeedV2 } from "@perp/contracts/interface/IPriceFeedV2.sol";
 import { BlockContext } from "@perp/contracts/base/BlockContext.sol";
