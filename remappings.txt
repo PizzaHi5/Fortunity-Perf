@@ -7,3 +7,4 @@
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 base64-sol/=lib/base64/
+@newzep/=lib/newzep/

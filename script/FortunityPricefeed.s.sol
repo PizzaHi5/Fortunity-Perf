@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "forge-std/Script.sol";
 import "../src/FortunityPricefeed.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@newzep/contracts/token/ERC20/IERC20.sol";
 
 contract FortunityPricefeedScript is Script {
     /// @dev Change deployment details below based on network

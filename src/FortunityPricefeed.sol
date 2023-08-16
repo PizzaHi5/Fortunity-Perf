@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/utils/Strings.sol";
+import "@newzep/contracts/utils/Strings.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
