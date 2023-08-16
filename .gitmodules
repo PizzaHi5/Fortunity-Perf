@@ -14,3 +14,5 @@
 	url = https://github.com/perpetual-protocol/perp-oracle-contract
 [submodule "lib/newzep"]
 	path = lib/newzep
+[submodule "lib/openzeppelin-contracts"]
+	path = openzeppelin-contracts
