@@ -1,5 +1,9 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "lib/chainlink"]
+	path = lib/chainlink
+[submodule "lib/perp-oracle-contract"]
+	path = lib/perp-oracle-contract
 [submodule "lib/openzeppelin-contracts"]
 	path = lib/openzeppelin-contracts
