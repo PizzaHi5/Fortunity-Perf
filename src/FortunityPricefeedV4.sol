@@ -8,7 +8,7 @@ import { IPriceFeedV2 } from "@perp/contracts/interface/IPriceFeedV2.sol";
 import { BlockContext } from "@perp/contracts/base/BlockContext.sol";
 import { CachedTwap } from "@perp/contracts/twap/CachedTwap.sol";
 
-contract FortunityPricefeedV2 is IPriceFeedV2, BlockContext, CachedTwap, Ownable {
+contract FortunityPricefeedV4 is IPriceFeedV2, BlockContext, CachedTwap, Ownable {
     using Address for address;
 
     ITruflationPricefeed private _aggregator;
@@ -78,9 +78,6 @@ contract FortunityPricefeedV2 is IPriceFeedV2, BlockContext, CachedTwap, Ownable
     }
 
     function getRoundData(uint80 roundId) external view returns (uint256, uint256) {
-        // NOTE: aggregator will revert if roundId is invalid (but there might not be a revert message sometimes)
-        // will return (roundId, 0, 0, 0, roundId) if round is not complete (not existed yet)
-        // https://docs.chain.link/docs/historical-price-data/
         (, int256 price, , uint256 updatedAt, ) = _aggregator.getRoundData(_dataTarget, roundId, _target);
 
         // CPF_IP: Invalid Price
